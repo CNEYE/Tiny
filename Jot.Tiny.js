@@ -24,8 +24,8 @@
 	3、plugin 语法 plugin baidu $dasdf:12 | $data|baidu:23,$asdf,1 注意这里的管道（‘|’）语法 将前面的输出应用到后面的插件的输入 分好后面是传入参数
 	4、赋值语法，定义变量 {/var $baidu = $asdf /}  || {/assign $baidu=eeeee/} ||  {/$baidu=233/}
 	
-	5、函数定义function 和插件类似，只是作用域在该模版下。
-	{/function name=menu level=0/}
+	5、函数定义function 和插件类似，只是作用域在该模版下。exports 导出该函数？？
+	{/function name=menu level=0 exports/}
 	  <ul class="level{/$level/}">
 	  {/foreach $data as $entry/}
 		{/if is_array($entry)/}
@@ -46,10 +46,6 @@
 	2、$$item  在foreach语法中访问当前项 $$item[1] //在多重循环中有用
 	3、$$arguments 访问传入参数arguments对象，在做插件的时候有用 只一个数组	
  */
- function define(name,factory){
- 	window[name.replace('Jot.','')] = factory();
- }
- 
  define('Jot.Tiny',function(){
  
  var Tiny     = function (){},
@@ -60,13 +56,13 @@
 	//正则处理，这里的是语法提取正则
 	rsegmt    = /(.*?)\{\/\s*(.*?)\s*\/\}/gm,//关键的分割正则
 	rlevel	  = /(?:^|[^\w\s]*)(\$level)(?:[^\w\s]*|$)/g,
-	rpredef	  = /\$\$(index|arguments|item)/g,
+	rpredef	  = /\$\$(index|arguments|item|data)(?:\[(\d+)\])?/g,
 	rvalue    = /(?:\$(\w+))/g,
 	rfirst	  = /^(\w+|[^\w]+)/,//提取第一个关键词语
-	rforeach  = /^foreach\s*\(?\s*([\$\w]+)\s+as\s+\$([\$\w]+)/,//switch 语法
+	rforeach  = /^foreach\s*\(?\s*([\$\w\.\[\]]+)\s+as\s+\$([\$\w]+)/,//switch 语法
 	rfor	  = /^for\s*\(?\s*([^){]+)\s*/,//for 语法
-	rfunction = /^function\s+name\s*=\s*['"]?(\w+)['"]?\s*(?:level\s*=\s*([^\s]+)?)/,//function 语法
-	rcall 	  = /^call\s+name\s*=\s*(\w+)\s*(?:data\s*=\s*([\$\w]+))?\s*(?:level\s*=\s*([^\s]+))?/,//call 语法
+	rfunction = /^function\s+name\s*=\s*['"]?(\w+)['"]?\s*(?:level\s*=\s*([^\s]+))?\s*(exports)?/,//function 语法
+	rcall 	  = /^call\s+name\s*=\s*(\w+)\s*(?:data\s*=\s*([\$\w\.\[\]]+))?\s*(?:level\s*=\s*([^\s]+))?/,//call 语法
 	rif		  = /^if\s+\(?([^)\s{]+)/,//if语法
 	relseif	  = /^elseif\s+\(?([^)\s{]+)/,//elseif 语法
 	relse	  = /^else$/,//else语法
@@ -126,12 +122,10 @@
 			if (force === true){
 				return result.join('');
 			}
-			
-			result.push('try{')
 			result.push(Tiny.compiled.join(''));
 			result.push(Tiny.concats(true));
-			result.push('}catch(e){window.console && console.log(e);}');
 			
+			//window.console && console.log(result.join(''));
 			return new Function('__data__',result.join(''));
 		},
 		//语法,也就是开始的单词
@@ -152,7 +146,8 @@
 						syn  = [(syn=match[2])+'__D',syn+'__I',syn+'__L'];
 					
 					result.push(syn[0],'=','__item__[',loop,']=',Tiny.syntax.value(match[1],true));
-					result.push(',',syn[1],'= 0;',syn[1],'<=',syn[2],';','){var ');
+					result.push(',',syn[2],'=',syn[0],'.length');
+					result.push(',',syn[1],'= 0;',syn[1],'<',syn[2],';','){var ');
 					result.push(match[2],'=',syn[0],'[',syn[1],'++];__index__[',loop,']=',syn[1],';');
 					
 					Tiny.loopindex = syn[1];
@@ -244,8 +239,8 @@
 				//管道语法		
 				} else if (match = statement.match(rpiping)) {
 				
-					var idx = 0, item ,syntax,
-						result = "",head = Tiny.syntax.value(match.shift(),true);
+					var idx  = 0, item ,syntax,
+						head = Tiny.syntax.value(match.shift(),true);
 					
 					while(item = match.shift()){
 						syntax  = item.split(':');
