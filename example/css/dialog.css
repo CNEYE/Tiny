@@ -1,0 +1,111 @@
+/*这里是弹窗的样式*/
+.ui-dialog {
+	position:absolute;
+	border:7px solid rgba(0,0,0,0.3);
+	*border:7px solid #ccc;
+	top:50%;
+	left:50%;
+	background:#fff;
+	z-index:100;
+	
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-background-clip: border;    
+	-moz-background-clip: border;     	
+	background-clip: border-box;    
+	-moz-background-clip: padding;  
+	-webkit-background-clip: padding;    
+	background-clip: padding-box;   
+	-moz-background-clip: content;   
+	-webkit-background-clip: content;   
+	background-clip: content-box; 
+}
+.ui-dialog-header { 
+	height:30px;
+	line-height:30px;
+	font-size:12px;
+	padding-left:5px;
+	background:#f1f5f8;
+}
+.ui-dialog-header h3{
+	float:left;
+	font-weight:normal;
+}
+.ui-dialog-header a{
+	float:right;
+	display:block;
+	width:20px;
+	margin-top:2px;
+	height:18px;
+	line-height:15px;
+	cursor:pointer;
+	font-size:17px;
+	font-weight:bold;
+	color:#333;
+}
+.ui-dialog-header a:hover{
+	color:#FF8A00;
+}
+.ui-dialog-footer{
+	text-align:center;
+	padding:15px 0;
+}
+.ui-button{
+	padding:1px 2px;
+	border:1px solid #2DAEBF;
+	background:#fff;
+	cursor:pointer;
+	width:59px;
+	color:#fff;
+	height:26px;
+	line-height:12px;
+	overflow:Hidden;
+	margin:0 3px;
+}
+.ui-button em{
+	display:block;
+	background:#2DAEBF;
+	padding:0 10px;
+	line-height:20px;
+	height:20px;
+	font-style:normal;
+	text-align:center;
+}
+.ui-button-gray {
+	border: 1px solid #eee;
+	color:#222;
+	
+}
+.ui-button-gray em{
+	background:#eee;
+}
+.ui-mask {
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	z-index:12;
+	background:#ccc;
+	opacity:.5;
+	filter:alpha(opacity=50);
+}
+.ui-tips{
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-80px;
+	margin-top:-17px;
+	width:150px;
+	height:30px;
+	line-height:30px;
+	background:#ff8a00;
+	border-radius:5px;
+	text-align:center;
+	opacity:0.9;
+	filter: alpha(opacity=90);
+	color:#fff;
+	padding:5px 10px;
+	font-weight:bold;
+}
