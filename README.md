@@ -1,6 +1,6 @@
 Tiny
 ====
-项目以移动到Jot项目下，来则请移步，本出不再更新
+项目以移动到Jot项目下，来则请移步，本出不再更新https://github.com/CNEYE/Jot
 ----------
 javascript template engine
  一个简单前端模版引擎 Jot.Tiny
