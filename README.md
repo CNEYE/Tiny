@@ -1,5 +1,6 @@
 Tiny
 ====
+
 javascript template engine
  一个简单前端模版引擎 Jot.Tiny
  一个基于smarty 模板的语法
