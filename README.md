@@ -1,5 +1,5 @@
 Tiny
-====
+==== 
 
 javascript template engine
  一个简单前端模版引擎 Jot.Tiny
